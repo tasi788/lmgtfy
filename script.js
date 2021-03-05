@@ -10,11 +10,11 @@
     await sleep(300);
   }
   if (location.hash?.length > 1) {
-    const query = atob(location.hash.substr(1));
+    const query = decodeURIComponent(escape(atob(location.hash.substr(1))));
     await type(query);
-    location.href = `https://google.com/search?q=${encodeURIComponent(query)}`;
+    location.href = `https://google.com/search?q=${query}`;
   } else {
-    searchbox.addEventListener('input', e => (location.hash = btoa(e.target.value)));
+    searchbox.addEventListener('input', e => (location.hash = btoa(unescape(encodeURIComponent(e.target.value)))));
     searchbox.addEventListener('input', e => {
       searchbtn.innerText = "Copy Link";
       searchbtn.style.width = searchbtn.getBoundingClientRect().width + "px";
